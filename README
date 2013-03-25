@@ -1,0 +1,15 @@
+This is a mashup of jQuery-plugins and PHP to build up webbased IDE.
+It's just a proof of concept, but I it really works. 
+And it's a quick way to code with not too huge files.
+But if your files too huge, you make something wrong, isn't it?
+
+The main part of all is EditArea, you can find here:
+http://www.cdolivet.com/editarea/
+
+The apache-user needs rights to write.
+For easy usage you can change the owner of your webroot for example:
+# chown -R www-data:www-data /var/www
+
+For PHP Shell 2.4:
+user: alice
+password secret

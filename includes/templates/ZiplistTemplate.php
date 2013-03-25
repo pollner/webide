@@ -1,0 +1,137 @@
+<?php
+//
+?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+
+<html>
+
+<head>
+	<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+	<meta http-equiv="Content-Script-Type" content="text/javascript">
+
+	<title>Explorer</title>
+
+	
+
+	<link href="jqueryFileTree/mainFileTree.css" rel="stylesheet" type="text/css" media="screen" />
+    	<script type="text/javascript" src="js/general.js"></script>
+	<script type="text/javascript" src="jquery/jquery-1.4.2.min.js"></script>
+	<script type="text/javascript" src="jquery.contextMenu/jquery.contextMenu.js"></script>
+	<script type="text/javascript" src="jquery.contextMenu/myconmenu.js"></script>
+	<link rel="StyleSheet" href="jquery.contextMenu/jquery.contextMenu.css" type="text/css" />
+
+	<script language="Javascript" type="text/javascript">
+		// initialisation
+		
+		path="<?php echo utf8_encode($zipfile) ?>";
+		
+		function new_folder(){
+			foldername=prompt("New directory :",path+"new_directory");
+			if(foldername){
+				//alert("mkdir="+path+foldername);
+				$.ajax({
+   					type: "POST",
+			   		url: "index.php",
+			   		//data: "fid=&mode=WRITE&content="+encodeURIComponent(content),
+			   		data: "com=Profiler&mkdir="+encodeURIComponent(foldername),
+			   		success: function(msg){
+			       			alert( "Data saved: " + msg );
+			       			parent.Daten.location.reload(false);
+			       			parent.Navigation.load();
+			       		
+			   		}
+			   		
+ 					});
+
+				
+				//alert("Neues Verzeichnis "+foldername+" in "+path);
+			}
+			
+		}
+		
+		function new_file(){
+			filename=prompt("New file :",path+"new_file");
+			if(filename){
+				//alert("mkdir="+path+foldername);
+				$.ajax({
+   					type: "POST",
+			   		url: "index.php",
+			   		//data: "fid=&mode=WRITE&content="+encodeURIComponent(content),
+			   		data: "com=Profiler&mkfile="+encodeURIComponent(filename),
+			   		success: function(msg){
+			       			alert( "Data saved: " + msg );
+			       			parent.Daten.location.reload(false);
+			       			parent.Navigation.load();
+			       		
+			   		}
+			   		
+ 					});
+
+				
+				//alert("Neues Verzeichnis "+foldername+" in "+path);
+			}
+			
+		}
+
+
+		
+		function shell(){
+		    parent.Daten.location.href="phpshell-2.1/phpshell.php";
+		    //parent.Daten.location.href="?com=Phpshell";
+		}
+		
+		
+	        function phpinfo(){
+	            parent.Daten.location.href="?com=Phpinfo";
+	        }
+		
+		function server(){
+		    parent.Daten.location.href="?com=Server";
+		}
+
+		function make_ht(){
+		    //r=document.getElementById('path').innerHTML;
+		    r=path;
+		    r=urlencode(r);
+		    
+		    parent.Daten.location.href="?com=Htaccess&dir="+r;
+		}
+
+		function uploader() {
+			//alert("DEBUG");
+			//uploaderpath=document.getElementById('').innerHTML;
+			parent.Daten.location.href="?com=Uploader&dir="+urlencode(path);
+
+		}
+		
+		function openExplorer() {
+			
+			ex=getcurdir(path);
+			parent.Daten.location.href="?com=Explorer&set=js&dir="+urlencode(ex);
+		
+		}
+		
+
+	</script>
+
+
+
+</head>
+<body>
+
+<input type="image" src="jqueryFileTree/images/explorer.png" onclick="openExplorer()" style="border: 0px dotted rgb(255, 255, 255); margin-top: 2px;" />
+<!--
+<input type="image" src="jqueryFileTree/images/directory.png" onclick="new_folder()" title="Directory" value="new_folder" />
+<input type="image" src="jqueryFileTree/images/file.png" onclick="new_file()" title="File" value="new_folder" />
+<input type="image" src="editarea/edit_area/images/shell.gif" onclick="shell()" title="Shell" />
+<input type="image" src="editarea/edit_area/images/nfoscript.gif" onclick="server()" title="Server" />
+<input type="image" src="jqueryFileTree/images/php.png" onclick="javascript:phpinfo()" title="Phpinfo" />
+<input type="image" src="editarea/edit_area/images/screw1.png" onclick='parent.Daten.location.href="?com=EditArea&dir=<?php echo Registry::get('getcwd'); ?>includes/config.php"' title="Config" />
+<input type="image" src="icons/folder_lock.png" onclick="make_ht()" title="Htaccess" />
+<input type="image" src="icons/upload.png" onclick="uploader()" title="Uploader" />
+<span class="pathline"><?php echo $msg ?></span>-->
+
+<?php echo $content; ?>				
+
+</body>
+</html>
